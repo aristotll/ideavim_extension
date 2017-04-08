@@ -7,7 +7,8 @@ package io.github.hadixlin.iss.windows;
  * Time: 02:52<br>
  */
 
-import com.sun.jna.*;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import com.sun.jna.win32.StdCallLibrary;
 
 public class Main {
