@@ -9,7 +9,7 @@ import io.github.hadixlin.iss.InputSource;
  * Time: 00:23<br>
  */
 public class WindowsInputSource implements InputSource {
-    public static long former = InputLanguage.ENGLISH_INPUT;
+    private static long former = InputLanguage.ENGLISH_INPUT;
 
     @Override
     public void switchToEnglish() {

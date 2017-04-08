@@ -23,10 +23,10 @@ public class InputLanguage {
      */
     public static native long GetKeyboardLayout(long dwLayout);
 
-    /**
+/*    *//**
      * http://www.pinvoke.net/default.aspx/user32.loadkeyboardlayout
-     */
-    public native static int LoadKeyboardLayout(String pwszKLID, int Flags);
+     *//*
+    public native static int LoadKeyboardLayout(String pwszKLID, int Flags);*/
 
     /**
      * 这个是上一个下一个的
