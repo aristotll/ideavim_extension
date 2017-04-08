@@ -1,0 +1,63 @@
+#coding=utf-8
+from ctypes import *
+from ctypes.wintypes import BOOL, HWND, LPARAM, HKL
+import _winreg
+
+hwnd = windll.user32.FindWindowA('Notepad',None)
+print "hwnd:", hwnd
+
+windll.user32.SetForegroundWindow(hwnd)
+
+editHwnd = 0
+
+@WINFUNCTYPE(BOOL, HWND, LPARAM)
+def print_title(hwnd,lParam):
+    className = (c_wchar * 7)()
+    windll.user32.GetClassNameW(hwnd,className,7)
+    className = className.value
+    if className!="":
+        print className,hwnd
+        global editHwnd
+        if className=='Edit':
+            editHwnd = hwnd
+    return 1
+
+windll.user32.EnumChildWindows(hwnd,print_title,1)
+
+print "editHwnd:",editHwnd
+
+kListCount = windll.user32.GetKeyboardLayoutList(0,None)
+print "GetKeyboardLayoutList:",kListCount
+
+#kList= windll.Kernel32.HeapAlloc(windll.Kernel32.GetProcessHeap(),0x00000008,kListCount*sizeof(HKL))
+kList=(HKL * kListCount)()
+windll.user32.GetKeyboardLayoutList(kListCount,kList)
+#kList = (HKL * kListCount).from_address(kList)
+for k in kList:
+    print "KeyboardLayout:",k,k&0x0000ffff,k>>16,hex(k)
+    try:
+        key = _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE,'SYSTEM\CurrentControlSet\Control\Keyboard Layouts\%X'%k)
+        print _winreg.QueryValueEx(key,'Layout Text')[0]
+    except:
+        print "No Find Layout Text of %s"%k
+hkl=kList[0]
+#windll.Kernel32.HeapFree(windll.Kernel32.GetProcessHeap(),0,kList)
+
+p= c_int()
+windll.user32.GetWindowThreadProcessId(hwnd,byref(p))
+pid = p.value
+print "GetWindowThreadProcessId:",pid
+
+tid = windll.Kernel32.GetCurrentThreadId()
+print "GetCurrentThreadId:",tid
+
+windll.user32.AttachThreadInput(tid,pid,True)
+
+print "editHwnd:",editHwnd
+print "hkl:",hkl
+#print "WM_INPUTLANGCHANGEREQUEST:", windll.user32.SendMessageA(editHwnd,0x0050,True,hkl)
+print "WM_INPUTLANGCHANGEREQUEST:", windll.user32.SendMessageA(hwnd,0x0050,True,hkl)
+
+windll.user32.AttachThreadInput(tid,pid,False)
+
+print "GetLastError:", GetLastError()
