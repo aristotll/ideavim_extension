@@ -1,6 +1,7 @@
 package io.github.hadixlin.iss.windows;
 
 import io.github.hadixlin.iss.InputSource;
+import com.intellij.openapi.diagnostic.Logger;
 
 /**
  * Name: WindowsInputSource<br>
@@ -9,7 +10,10 @@ import io.github.hadixlin.iss.InputSource;
  * Time: 00:23<br>
  */
 public class WindowsInputSource implements InputSource {
+
     private static long former = InputLanguage.ENGLISH_INPUT;
+
+    private final Logger logger = Logger.getInstance(WindowsInputSource.class);
 
     @Override
     public void switchToEnglish() {
@@ -19,6 +23,8 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void switchToFormer() {
+        logger.debug(String.valueOf(former));
+        logger.debug(String.valueOf(InputLanguage.currentKeyboardLayout()));
         if (!(former == InputLanguage.currentKeyboardLayout())) {
             InputLanguage.previousKeyboardLayout();
         }
