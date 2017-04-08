@@ -11,7 +11,8 @@ import com.intellij.openapi.diagnostic.Logger;
  */
 public class WindowsInputSource implements InputSource {
 
-    private static long former = InputLanguage.ENGLISH_INPUT;
+    private static long former = InputLanguage.currentKeyboardLayout();
+//    private static long former = InputLanguage.ENGLISH_INPUT;//度量不是一个 一个 很大 一个很小 必须放在一起用
 
     private final Logger logger = Logger.getInstance(WindowsInputSource.class);
 
@@ -23,9 +24,10 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void switchToFormer() {
-        logger.debug(String.valueOf(former));
-        logger.debug(String.valueOf(InputLanguage.currentKeyboardLayout()));
+        logger.warn("switchToFormer " + String.valueOf(former));
+        logger.warn("switchToFormer " + String.valueOf(InputLanguage.currentKeyboardLayout()));
         if (!(former == InputLanguage.currentKeyboardLayout())) {
+//            InputLanguage.previousKeyboardLayout(former);
             InputLanguage.previousKeyboardLayout();
         }
 
@@ -34,5 +36,7 @@ public class WindowsInputSource implements InputSource {
     @Override
     public void updateFormer() {
         former = InputLanguage.currentKeyboardLayout();
+        logger.warn("updateFormer " + former);
     }
+
 }

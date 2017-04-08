@@ -55,7 +55,15 @@ public class InputLanguage {
 //        return ActivateKeyboardLayout(HKL, 0);
     }
 
+    /**
+     * 刚才是 previous language 生效 而 switch to English 失效?
+     * impossible
+     */
     public static void setEnglishLanguage() {
-        ActivateKeyboardLayout(ENGLISH_INPUT,256);
+        ActivateKeyboardLayout(ENGLISH_INPUT, 256);
+    }
+
+    public static long previousKeyboardLayout(int former) {
+        return ActivateKeyboardLayout(former, 256);
     }
 }
