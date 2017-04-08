@@ -35,7 +35,7 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void updateFormer() {
-        former = (int) InputLanguage.currentKeyboardLayout();
+        former = InputLanguage.currentKeyboardLayout();
         logger.warn("updateFormer " + former);
     }
 

@@ -21,7 +21,7 @@ public class InputLanguage {
      * http://baike.baidu.com/item/GetKeyboardLayout?wtp=tt
      * http://jcs.mobile-utopia.com/jcs/55085_User32.java
      */
-    public static native long GetKeyboardLayout(long dwLayout);
+    public static native int GetKeyboardLayout(int dwLayout);
 
 /*    *//**
      * http://www.pinvoke.net/default.aspx/user32.loadkeyboardlayout
@@ -46,11 +46,11 @@ public class InputLanguage {
 
     public native static int GetKeyboardLayoutList(int nBuff, int[] lpList);
 
-    public static long currentKeyboardLayout() {
+    public static int currentKeyboardLayout() {
         return GetKeyboardLayout(0);
     }
 
-    public static long previousKeyboardLayout() {
+    public static int previousKeyboardLayout() {
         return ActivateKeyboardLayout(0, 256);
 //        return ActivateKeyboardLayout(HKL, 0);
     }
@@ -63,7 +63,7 @@ public class InputLanguage {
         ActivateKeyboardLayout(ENGLISH_INPUT, 256);
     }
 
-    public static long previousKeyboardLayout(int former) {
+    public static int previousKeyboardLayout(int former) {
         return ActivateKeyboardLayout(former, 256);
     }
 }
