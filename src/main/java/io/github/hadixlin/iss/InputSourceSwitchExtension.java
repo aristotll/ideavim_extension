@@ -6,6 +6,9 @@ import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.command.CommandProcessor;
 import com.maddyhome.idea.vim.extension.VimExtension;
+import com.sun.jna.Platform;
+import io.github.hadixlin.iss.windows.WindowsInputSource;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +51,16 @@ public class InputSourceSwitchExtension implements VimExtension {
 
     @NotNull
     private static CommandListener exitInsertModeListener() {
+        final InputSource inputSource;
+        InputSource inputSource1 = null;//为了愚弄编辑器..
+        if (Platform.isMac()) {
+            inputSource1 = new SystemInputSource();
+        } else if (Platform.isWindows()) {
+            inputSource1 = new WindowsInputSource();
+        } else if (Platform.isLinux()) {
+            throw new NotImplementedException("Linux is not supported yet");
+        }
+        inputSource = inputSource1;
         return new CommandAdapter() {
             @Override
             public void beforeCommandFinished(CommandEvent commandEvent) {
@@ -56,10 +69,10 @@ public class InputSourceSwitchExtension implements VimExtension {
                     return;
                 }
                 if (AUTO_SWITCH_TRIGGER_COMMANDS.contains(commandName)) {
-                    SystemInputSource.switchToEnglish();
+                    inputSource.switchToEnglish();
                 }
                 if (UPDATE_TRIGGER_COMMANDS.contains(commandName)) {
-                    SystemInputSource.switchToFormer();
+                    inputSource.switchToFormer();
                 }
 
             }

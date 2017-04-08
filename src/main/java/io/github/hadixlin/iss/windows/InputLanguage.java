@@ -1,11 +1,6 @@
 package io.github.hadixlin.iss.windows;
 
 import com.sun.jna.Native;
-import com.sun.jna.platform.win32.User32;
-import com.sun.jna.ptr.IntByReference;
-import com.sun.jna.ptr.PointerByReference;
-import com.sun.jna.win32.StdCallLibrary;
-import com.sun.jna.platform.win32.WinDef.HWND;
 
 /**
  * Name: InputLanguage <br>
@@ -36,16 +31,16 @@ public class InputLanguage {
     /**
      * 这个是上一个下一个的
      *
-     * @param hkl
-     * be either the handle to a keyboard layout or one of the following values
-     *  两种情况
-     *  1.layout
-     *  2. 0 or 1
+     * @param hkl   be either the handle to a keyboard layout or one of the following values
+     *              两种情况
+     *              1.layout
+     *              2. 0 or 1
      *              上一个为0 下一个为1
-     * 以当前 layout 为基准
+     *              以当前 layout 为基准
      *              The input locale identifier must have been loaded by a previous call to the LoadKeyboardLayout function.
-     * @param Flags
-     * @return 成功与否? TODO
+     * @param Flags 256
+     * @return 成功与否
+     * If the function succeeds, the return value is the previous input locale identifier. Otherwise, it is zero.
      */
     public native static int ActivateKeyboardLayout(int hkl, int Flags);
 
@@ -60,7 +55,7 @@ public class InputLanguage {
 //        return ActivateKeyboardLayout(HKL, 0);
     }
 
-    public void setLanguage(String whichLanguage) {
-//        User32.INSTANCE.
+    public static void setEnglishLanguage() {
+        ActivateKeyboardLayout(ENGLISH_INPUT,256);
     }
 }
