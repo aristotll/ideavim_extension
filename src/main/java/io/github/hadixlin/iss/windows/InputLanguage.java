@@ -1,10 +1,12 @@
 package io.github.hadixlin.iss.windows;
 
 import com.sun.jna.Native;
+import com.sun.jna.platform.win32.WinDef.*;
 
 /**
  * Name: InputLanguage <br>
  * https://msdn.microsoft.com/en-us/library/ms646267(VS.85).aspx#_win32_Languages_Locales_and_Keyboard_Layouts
+ * https://technet.microsoft.com/en-us/library/hh825682.aspx
  * User: Yao<br>
  * Date: 17/4/8<br>
  * Time: 20:59<br>
@@ -39,8 +41,8 @@ public class InputLanguage {
      *              以当前 layout 为基准
      *              The input locale identifier must have been loaded by a previous call to the LoadKeyboardLayout function.
      * @param Flags 256
-     * @return 成功与否
-     * If the function succeeds, the return value is the previous input locale identifier. Otherwise, it is zero.
+     * @return If the function succeeds, the return value is the previous input locale identifier.
+     * Otherwise, it is zero.
      */
     public native static int ActivateKeyboardLayout(int hkl, int Flags);
 
@@ -52,8 +54,12 @@ public class InputLanguage {
 
     public static int previousKeyboardLayout() {
         return ActivateKeyboardLayout(0, 256);
-//        return ActivateKeyboardLayout(HKL, 0);
     }
+
+    public static int nextKeyboardLayout() {
+        return ActivateKeyboardLayout(1, 256);
+    }
+
 
     /**
      * 刚才是 previous language 生效 而 switch to English 失效?
@@ -66,4 +72,22 @@ public class InputLanguage {
     public static int previousKeyboardLayout(int former) {
         return ActivateKeyboardLayout(former, 256);
     }
+
+    public native static HWND GetActiveWindow();
+
+    public native static void PostMessage(HWND hWnd, int msg, int wParam, int lParam);
+
+    public static void changeInput(HWND hWnd, int lParam) {
+        PostMessage(hWnd, 80, 1, lParam);
+    }
+
+    public static void changePreviousInput() {
+        changeInput(GetActiveWindow(), previousKeyboardLayout());
+    }
+
+    public static void changeNextInput() {
+        changeInput(GetActiveWindow(), nextKeyboardLayout());
+    }
+
+
 }

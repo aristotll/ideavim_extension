@@ -9,6 +9,7 @@ package io.github.hadixlin.iss.windows;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.User32;
 import com.sun.jna.win32.StdCallLibrary;
 
 public class Main {
@@ -32,6 +33,8 @@ public class Main {
             System.out.println(Kernel32.INSTANCE.GetKeyboardLayoutNameA(buf));
             String name = Native.toString(buf);
             System.out.println(name);
+            // user32
+//            User32.INSTANCE.PostMessage();
         }
     }
 
