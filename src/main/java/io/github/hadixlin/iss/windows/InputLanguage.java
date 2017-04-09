@@ -18,11 +18,11 @@ import io.github.hadixlin.iss.utils.NotificationHelper;
 public class InputLanguage {
     public static final int ENGLISH_INPUT = 0x4090409;//eng
     public static final String ENGLISH_LAYOUT = "00000409";
-    public static final ExtendedUser32 USER_32;
+//    public static final ExtendedUser32 USER_32;
 
     static {
         Native.register("user32");
-        USER_32 = ExtendedUser32.INSTANCE;
+//        USER_32 = ExtendedUser32.INSTANCE;
     }
 
     /**
@@ -89,7 +89,7 @@ public class InputLanguage {
     public static void changeInput(HWND hWnd, int lParam) {
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms632630(v=vs.85).aspx
         NotificationHelper.notify(hWnd.toString());
-        USER_32.SendMessage(hWnd, 80, new WPARAM(1), new LPARAM(lParam));
+//        USER_32.SendMessage(hWnd, 80, new WPARAM(1), new LPARAM(lParam));
 
     }
 
