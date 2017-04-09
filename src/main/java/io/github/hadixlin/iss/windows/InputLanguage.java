@@ -1,8 +1,11 @@
 package io.github.hadixlin.iss.windows;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.sun.jna.Native;
-import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
+import io.github.hadixlin.iss.utils.NotificationHelper;
 
 /**
  * Name: InputLanguage <br>
@@ -15,9 +18,11 @@ import com.sun.jna.platform.win32.WinDef.*;
 public class InputLanguage {
     public static final int ENGLISH_INPUT = 0x4090409;//eng
     public static final String ENGLISH_LAYOUT = "00000409";
+    public static final ExtendedUser32 USER_32;
 
     static {
         Native.register("user32");
+        USER_32 = ExtendedUser32.INSTANCE;
     }
 
     /**
@@ -74,15 +79,18 @@ public class InputLanguage {
         return ActivateKeyboardLayout(former, 256);
     }
 
-    public native static int GetActiveWindow();
+    public native static HWND GetActiveWindow();
 
-    public native static Object SendMessage(int hWnd, int msg, int wParam, int lParam);
+//    public native static void SendMessage(int hWnd, int msg, int wParam, int lParam);
+//    public native static int SendMessage(HWND hWnd, int Msg, int wParam, String lParam);
+//    public native static int SendMessage(HWND hWnd, int Msg, WPARAM wParam, LPARAM lParam);
 
 
-    public static void changeInput(int hWnd, int lParam) {
+    public static void changeInput(HWND hWnd, int lParam) {
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms632630(v=vs.85).aspx
-        User32.INSTANCE.PostMessage();
-//        SendMessage(hWnd, 80, 1, lParam);
+        NotificationHelper.notify(hWnd.toString());
+        USER_32.SendMessage(hWnd, 80, new WPARAM(1), new LPARAM(lParam));
+
     }
 
     public static void changePreviousInput() {

@@ -2,6 +2,7 @@ package io.github.hadixlin.iss.windows;
 
 import io.github.hadixlin.iss.InputSource;
 import com.intellij.openapi.diagnostic.Logger;
+import io.github.hadixlin.iss.utils.NotificationHelper;
 
 /**
  * Name: WindowsInputSource<br>
@@ -24,19 +25,22 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void switchToFormer() {
-        logger.debug("switchToFormer " + String.valueOf(former));
-        logger.debug("switchToFormer " + String.valueOf(InputLanguage.currentKeyboardLayout()));
+        NotificationHelper.notify("switchToFormer:former " + String.valueOf(former));
+        NotificationHelper.notify("switchToFormer:current " + String.valueOf(InputLanguage.currentKeyboardLayout()));
         if (!(former == InputLanguage.currentKeyboardLayout())) {
-            InputLanguage.changePreviousInput();
-//            InputLanguage.previousKeyboardLayout();
+//            InputLanguage.changePreviousInput();
+            InputLanguage.previousKeyboardLayout();
         }
 
     }
 
     @Override
     public void updateFormer() {
+        NotificationHelper.notify("updateFormer:former " + former);
         former = InputLanguage.currentKeyboardLayout();
-        logger.debug("updateFormer " + former);
+//        logger.debug("updateFormer " + former);
+        NotificationHelper.notify("updateFormer:current " + former);
+
     }
 
 }
