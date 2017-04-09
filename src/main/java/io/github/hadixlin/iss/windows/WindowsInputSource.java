@@ -25,8 +25,8 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void switchToFormer() {
-        NotificationHelper.notify("switchToFormer:former " + String.valueOf(former));
-        NotificationHelper.notify("switchToFormer:current " + String.valueOf(InputLanguage.currentKeyboardLayout()));
+//        NotificationHelper.notify("switchToFormer:former " + String.valueOf(former));
+//        NotificationHelper.notify("switchToFormer:current " + String.valueOf(InputLanguage.currentKeyboardLayout()));
         if (!(former == InputLanguage.currentKeyboardLayout())) {
 //            InputLanguage.changePreviousInput();
             InputLanguage.previousKeyboardLayout();
@@ -36,10 +36,10 @@ public class WindowsInputSource implements InputSource {
 
     @Override
     public void updateFormer() {
-        NotificationHelper.notify("updateFormer:former " + former);
+//        NotificationHelper.notify("updateFormer:former " + former);
         former = InputLanguage.currentKeyboardLayout();
 //        logger.debug("updateFormer " + former);
-        NotificationHelper.notify("updateFormer:current " + former);
+//        NotificationHelper.notify("updateFormer:current " + former);
 
     }
 
