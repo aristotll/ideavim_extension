@@ -34,7 +34,7 @@ public class Main {
             String name = Native.toString(buf);
             System.out.println(name);
             // user32
-//            User32.INSTANCE.PostMessage();
+//            User32.INSTANCE.SendMessage();
         }
     }
 

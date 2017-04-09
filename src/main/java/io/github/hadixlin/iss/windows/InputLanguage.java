@@ -1,6 +1,7 @@
 package io.github.hadixlin.iss.windows;
 
 import com.sun.jna.Native;
+import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.*;
 
 /**
@@ -73,12 +74,15 @@ public class InputLanguage {
         return ActivateKeyboardLayout(former, 256);
     }
 
-    public native static HWND GetActiveWindow();
+    public native static int GetActiveWindow();
 
-    public native static void PostMessage(HWND hWnd, int msg, int wParam, int lParam);
+    public native static Object SendMessage(int hWnd, int msg, int wParam, int lParam);
 
-    public static void changeInput(HWND hWnd, int lParam) {
-        PostMessage(hWnd, 80, 1, lParam);
+
+    public static void changeInput(int hWnd, int lParam) {
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/ms632630(v=vs.85).aspx
+        User32.INSTANCE.PostMessage();
+//        SendMessage(hWnd, 80, 1, lParam);
     }
 
     public static void changePreviousInput() {
